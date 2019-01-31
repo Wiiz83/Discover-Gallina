@@ -1,0 +1,26 @@
+(* Ouverture d'une section *)
+Section td1.
+
+(* Pour donner un nom au lambda-terme (Lx.x + 2) *)
+Definition f := fun x => x + 2.
+
+(* les booleens sont des fonctions a deux parametres *)
+Print f.
+
+(* les booleens sont des fonctions a deux parametres *)
+Compute f.
+
+(* les booleens sont des fonctions a deux parametres *)
+Definition t := f 3.
+
+(* les booleens sont des fonctions a deux parametres *)
+Compute t.
+
+(* les booleens sont des fonctions a deux parametres *)
+Definition u := (fun x y => x - y) 8 10.
+
+(* les booleens sont des fonctions a deux parametres *)
+Definition v := (fun x => fun y => x - y) 8 10.
+
+(* Fermeture d'une section *)
+End td1.

@@ -1,0 +1,27 @@
+Section tp3.
+
+(* type produit *)
+Definition tprod_bb_b := (bool -> bool -> bool) -> bool.
+
+(* constructeur *)
+Definition pair_bb_b : bool -> bool -> tprod_bb_b := fun b1 b2 => fun k => k b1 b2.
+
+(* type produit *)
+Definition tprod_bb_n := (bool -> bool -> nat) -> nat.
+
+(* constructeur *)
+Definition pair_bb_n : bool -> bool -> tprod_bb_n := fun b1 b2 => fun k => k b1 b2.
+
+Definition fun1 := fun c => c : bool -> fun b1 : bool => fun b2 : bool => orb (andb b1 b2) (andb (negb b1) (negb b2)).
+
+(* Definition q2_aux: bool -> bool -> bool := fun b1 b2 => orb (andb b1 b2) (andb (negb b1) (negb b2)).
+Definition q2: tprod_bb_b -> bool := fun c => c q2_aux. *)
+
+Definition q2_aux: bool -> bool -> bool := fun b1 b2=> orb (andb b1 b2) (andb (negb b1) (negb b2)).
+Definition q2: tprod_bb_b -> bool := fun c => c q2_aux.
+
+Compute q2_aux false false.
+Compute q2 (pair_bb_b false false).
+
+
+End tp3.

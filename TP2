@@ -1,0 +1,167 @@
+Section type_booleen.
+Variable T: Set.
+Variable x : T.
+Variable y : T.
+
+(* les booleens sont des fonctions a deux parametres *)
+Definition cbool := T -> T -> T.
+
+(* codage de true *)
+Definition ctr : cbool := fun x y => x.
+
+(* codage de false *)
+Definition cfa : cbool := fun x y => y.
+
+(*codage du if*)
+Definition cif := ( fun (b : cbool) m n => b m n ).
+Compute cif cfa x y .
+
+(* codage du not *)
+Definition cnot := ( fun (b : cbool) => fun xx yy  => b yy xx ).
+Compute cnot ctr.
+
+(* codage du and *)
+Definition cand := fun (a : cbool) (b : cbool) => fun x y  => cif a (cif b x y) y.
+Compute cand cfa cfa.
+
+(* codage du or *)
+Definition cor := fun (a : cbool) (b : cbool) => fun x y  => cif a x (cif b x y).
+Compute cor ctr cfa.
+
+Theorem not_true : cnot ctr = cfa .
+Proof. (* marque le debut de la preuve *)
+cbv delta [cnot]. (* les tactiques commencent par des minuscules *)
+cbv beta.
+cbv delta [ctr].
+cbv beta.
+cbv delta [cfa].
+(* A ce stade on a une egalite entre deux termes syntaxiquement identiques *)
+reflexivity.
+Qed. (* marque la fin de la preuve *)
+
+Theorem not_false : cnot cfa = ctr.
+Proof. (* marque le debut de la preuve *)
+cbv delta [cnot]. (* les tactiques commencent par des minuscules *)
+cbv beta.
+cbv delta [cfa].
+cbv beta.
+cbv delta [ctr].
+(* A ce stade on a une egalite entre deux termes syntaxiquement identiques *)
+reflexivity.
+Qed. (* marque la fin de la preuve *)
+
+
+(* test sur les and *)
+
+
+Theorem and_false_false : cand cfa cfa = cfa.
+Proof. (* marque le debut de la preuve *)
+cbv delta [cand]. (* les tactiques commencent par des minuscules *)
+cbv beta.
+cbv delta [cfa].
+cbv beta.
+cbv delta [cfa].
+cbv beta.
+cbv delta [cfa].
+(* A ce stade on a une egalite entre deux termes syntaxiquement identiques *)
+reflexivity.
+Qed. (* marque la fin de la preuve *)
+
+Theorem and_false_true : cand cfa ctr = cfa.
+Proof. (* marque le debut de la preuve *)
+cbv delta [cand]. (* les tactiques commencent par des minuscules *)
+cbv beta.
+cbv delta [cfa].
+cbv beta.
+cbv delta [ctr].
+cbv beta.
+cbv delta [cfa].
+(* A ce stade on a une egalite entre deux termes syntaxiquement identiques *)
+reflexivity.
+Qed. (* marque la fin de la preuve *)
+
+Theorem and_true_true : cand ctr ctr = ctr.
+Proof. (* marque le debut de la preuve *)
+cbv delta [cand]. (* les tactiques commencent par des minuscules *)
+cbv beta.
+cbv delta [ctr].
+cbv beta.
+cbv delta [ctr].
+cbv beta.
+cbv delta [ctr].
+(* A ce stade on a une egalite entre deux termes syntaxiquement identiques *)
+reflexivity.
+Qed. (* marque la fin de la preuve *)
+
+Theorem and_true_false : cand ctr cfa = cfa.
+Proof. (* marque le debut de la preuve *)
+cbv delta [cand]. (* les tactiques commencent par des minuscules *)
+cbv beta.
+cbv delta [ctr].
+cbv beta.
+cbv delta [cfa].
+cbv beta.
+cbv delta [cfa].
+(* A ce stade on a une egalite entre deux termes syntaxiquement identiques *)
+reflexivity.
+Qed. (* marque la fin de la preuve *)
+
+
+(* teste sur les or *)
+
+
+Theorem or_false_false : cor cfa cfa = cfa.
+Proof. (* marque le debut de la preuve *)
+cbv delta [cor]. (* les tactiques commencent par des minuscules *)
+cbv beta.
+cbv delta [cfa].
+cbv beta.
+cbv delta [cfa].
+cbv beta.
+cbv delta [cfa].
+(* A ce stade on a une egalite entre deux termes syntaxiquement identiques *)
+reflexivity.
+Qed. (* marque la fin de la preuve *)
+
+Theorem or_false_true : cor cfa ctr = ctr.
+Proof. (* marque le debut de la preuve *)
+cbv delta [cor]. (* les tactiques commencent par des minuscules *)
+cbv beta.
+cbv delta [cfa].
+cbv beta.
+cbv delta [ctr].
+cbv beta.
+cbv delta [ctr].
+(* A ce stade on a une egalite entre deux termes syntaxiquement identiques *)
+reflexivity.
+Qed. (* marque la fin de la preuve *)
+
+Theorem or_true_true : cor ctr ctr = ctr.
+Proof. (* marque le debut de la preuve *)
+cbv delta [cor]. (* les tactiques commencent par des minuscules *)
+cbv beta.
+cbv delta [ctr].
+cbv beta.
+cbv delta [ctr].
+cbv beta.
+cbv delta [ctr].
+(* A ce stade on a une egalite entre deux termes syntaxiquement identiques *)
+reflexivity.
+Qed. (* marque la fin de la preuve *)
+
+Theorem or_true_false : cor ctr cfa = ctr.
+Proof. (* marque le debut de la preuve *)
+cbv delta [cor]. (* les tactiques commencent par des minuscules *)
+cbv beta.
+cbv delta [ctr].
+cbv beta.
+cbv delta [cfa].
+cbv beta.
+cbv delta [ctr].
+(* A ce stade on a une egalite entre deux termes syntaxiquement identiques *)
+reflexivity.
+Qed. (* marque la fin de la preuve *)
+
+Theorem cand_comm : forall a b : cbool, cand a b = cand b a.
+Proof.
+intros a b. cbv.
